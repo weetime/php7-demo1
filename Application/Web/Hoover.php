@@ -9,13 +9,21 @@
 namespace Application\Web;
 
 
+use Couchbase\Document;
+
 class Hoover
 {
     private $content;
+    private $clearCache = false;
 
-    public function getContent($url)
+    /**
+     * @param $url
+     * @return DOMDocument|null
+     * nullable ¼´·µ»Ø DOMDocument|null
+     */
+    public function getContent($url) :? DOMDocument
     {
-        if(!$this->content)
+        if(!$this->content || $this->getClearCache())
         {
             if(stripos($url, 'http') !==0)
             {
@@ -26,11 +34,15 @@ class Hoover
             @$this->content->loadHTMLFile($url);
         }
 
-        print_r($this->content);exit;
         return $this->content;
     }
 
-    public function getTags($url, $tag)
+    /**
+     * @param $url
+     * @param $tag
+     * @return array
+     */
+    public function getTags($url, $tag) : array
     {
         $count = 0;
         $result = [];
@@ -51,13 +63,19 @@ class Hoover
         return $result;
     }
 
-    public function getAttributes($url, $attr, $domain = NULL)
+    /**
+     * @param $url
+     * @param $attr
+     * @param null $domain
+     * @return array
+     */
+    public function getAttribute($url, $attr, $domain = NULL) : array
     {
         $result = [];
         $elemets = $this->getContent($url)->getElementsByTagName('*');
         foreach ($elemets as $node)
         {
-            if($node->hasArrtibule($attr))
+            if($node->hasAttribute($attr))
             {
                 $value = $node->getAttribute($attr);
                 if($domain)
@@ -75,5 +93,17 @@ class Hoover
         }
 
         return $result;
+    }
+
+
+    public function setClearCache(bool $clearCache = FALSE)
+    {
+        $this->clearCache = $clearCache;
+    }
+
+
+    private function getClearCache() : bool
+    {
+        return $this->clearCache ?? FALSE;
     }
 }

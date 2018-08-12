@@ -24,5 +24,6 @@ $vac = new Hoover();
 $url = strip_tags($_GET['url']) ?? DEFAULT_URL;
 $tag = strip_tags($_GET['tag']) ?? DEFAULT_TAG;
 
+
 echo 'Dump of Tags:' .PHP_EOL;
 var_dump($vac->getTags($url, $tag));
