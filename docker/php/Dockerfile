@@ -9,6 +9,7 @@ RUN set -x \
     # Install php environment
     && yum install -y \
         # Install tools
+        gcc gcc-c++ \
         ImageMagick \
         GraphicsMagick \
         ghostscript \
@@ -49,7 +50,7 @@ RUN set -x \
     && pecl install imagick \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin/ --filename=composer \
     # Cleanup
-    && yum erase -y php-devel gcc \
+    && yum erase -y php-devel \
     # Enable php services
     && docker-service enable syslog \
     && docker-service enable cron \
