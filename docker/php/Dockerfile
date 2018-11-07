@@ -51,10 +51,4 @@ RUN set -x \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin/ --filename=composer \
     # Cleanup
     && yum erase -y php-devel \
-    # Enable php services
-    && docker-service enable syslog \
-    && docker-service enable cron \
-    && docker-run-bootstrap \
-    && docker-image-cleanup
-
 EXPOSE 9000
