@@ -7,7 +7,7 @@ FROM centos:7
 
 RUN set -x \
     # Install php environment
-    && yum-install \
+    && yum install \
         # Install tools
         ImageMagick \
         GraphicsMagick \
